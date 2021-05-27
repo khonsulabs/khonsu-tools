@@ -1,0 +1,13 @@
+[package]
+name = "khonsu-tools"
+version = "0.1.0"
+authors = ["Jonathan Johnson <jon@khonsulabs.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+devx-cmd = "0.3"
+structopt = "0.3"
+badge = "0.3"
+anyhow = "1"
