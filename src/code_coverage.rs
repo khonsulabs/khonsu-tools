@@ -11,7 +11,7 @@ pub trait Config {
     /// The entire cargo command after `cargo`.
     fn cargo_args() -> Vec<String> {
         vec![
-            String::from("+nightly-2021-03-25"),
+            String::from("+nightly"),
             String::from("test"),
             String::from("--all-features"),
             String::from("--"),
