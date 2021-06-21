@@ -26,7 +26,16 @@ pub trait Config {
 }
 
 impl<C: Config> CodeCoverage<C> {
-    pub fn execute() -> anyhow::Result<()> {
+    pub fn execute(install_dependencies: bool) -> anyhow::Result<()> {
+        if install_dependencies {
+            println!("Installing rustup component `llvm-tools-preview` and nightly rust version");
+            run!("rustup", "component", "add", "llvm-tools-preview")?;
+            run!("rustup", "install", "nightly")?;
+            println!("Downloading pre-built grcov");
+            run!("curl", "-L", "https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2", "-o", "grcov.tar.bz2")?;
+            run!("tar", "-xjf", "grcov.tar.bz2")?;
+        }
+
         println!("Cleaning project");
         run!("cargo", "clean",)?;
 
@@ -39,7 +48,12 @@ impl<C: Config> CodeCoverage<C> {
         cmd.run()?;
 
         println!("Generating coverage report");
-        let mut cmd = Cmd::new("grcov");
+
+        let mut cmd = Cmd::new(if install_dependencies {
+            "./grcov"
+        } else {
+            "grcov"
+        });
         cmd.args(&[
             ".",
             "--binary-path",
