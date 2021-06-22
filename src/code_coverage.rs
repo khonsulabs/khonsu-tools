@@ -8,7 +8,7 @@ pub struct CodeCoverage<C: Config = DefaultConfig> {
 }
 
 pub trait Config {
-    /// The entire cargo command after `cargo`.
+    /// The cargo command after `cargo`.
     fn cargo_args() -> Vec<String> {
         vec![
             String::from("+nightly"),
@@ -17,6 +17,11 @@ pub trait Config {
             String::from("--"),
             String::from("--nocapture"),
         ]
+    }
+
+    /// The cargo command after `--`.
+    fn cargo_args_last() -> Vec<String> {
+        vec![String::from("--nocapture")]
     }
 
     /// The list of paths ignored when calculating code coverage.
@@ -54,6 +59,9 @@ impl<C: Config> CodeCoverage<C> {
         for package in C::ignore_packages() {
             cmd.arg2("--exclude", package);
         }
+
+        cmd.arg("--");
+        cmd.args(C::cargo_args_last());
 
         cmd.run()?;
 
