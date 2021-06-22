@@ -13,9 +13,8 @@ pub trait Config {
         vec![
             String::from("+nightly"),
             String::from("test"),
+            String::from("--workspace"),
             String::from("--all-features"),
-            String::from("--"),
-            String::from("--nocapture"),
         ]
     }
 
