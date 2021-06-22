@@ -23,6 +23,11 @@ pub trait Config {
     fn ignore_paths() -> Vec<String> {
         Vec::default()
     }
+
+    /// The list of packages ignored when running tests.
+    fn ignore_packages() -> Vec<String> {
+        Vec::new()
+    }
 }
 
 impl<C: Config> CodeCoverage<C> {
@@ -45,6 +50,11 @@ impl<C: Config> CodeCoverage<C> {
         cmd.env("LLVM_PROFILE_FILE", "%m.profraw");
         cmd.env("RUSTFLAGS", "-Zinstrument-coverage");
         cmd.args(C::cargo_args());
+
+        for package in C::ignore_packages() {
+            cmd.arg2("--exclude", package);
+        }
+
         cmd.run()?;
 
         println!("Generating coverage report");
