@@ -8,20 +8,29 @@ pub struct CodeCoverage<C: Config = DefaultConfig> {
 }
 
 pub trait Config {
-    /// The entire cargo command after `cargo`.
+    /// The cargo command after `cargo`.
     fn cargo_args() -> Vec<String> {
         vec![
             String::from("+nightly"),
             String::from("test"),
+            String::from("--workspace"),
             String::from("--all-features"),
-            String::from("--"),
-            String::from("--nocapture"),
         ]
+    }
+
+    /// The cargo command after `--`.
+    fn cargo_args_last() -> Vec<String> {
+        vec![String::from("--nocapture")]
     }
 
     /// The list of paths ignored when calculating code coverage.
     fn ignore_paths() -> Vec<String> {
         Vec::default()
+    }
+
+    /// The list of packages ignored when running tests.
+    fn ignore_packages() -> Vec<String> {
+        Vec::new()
     }
 }
 
@@ -45,6 +54,14 @@ impl<C: Config> CodeCoverage<C> {
         cmd.env("LLVM_PROFILE_FILE", "%m.profraw");
         cmd.env("RUSTFLAGS", "-Zinstrument-coverage");
         cmd.args(C::cargo_args());
+
+        for package in C::ignore_packages() {
+            cmd.arg2("--exclude", package);
+        }
+
+        cmd.arg("--");
+        cmd.args(C::cargo_args_last());
+
         cmd.run()?;
 
         println!("Generating coverage report");
