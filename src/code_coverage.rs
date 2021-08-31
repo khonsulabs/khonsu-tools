@@ -38,8 +38,14 @@ impl<C: Config> CodeCoverage<C> {
     pub fn execute(install_dependencies: bool) -> anyhow::Result<()> {
         if install_dependencies {
             println!("Installing rustup component `llvm-tools-preview` and nightly rust version");
-            run!("rustup", "component", "add", "llvm-tools-preview")?;
-            run!("rustup", "install", "nightly")?;
+            run!(
+                "rustup",
+                "component",
+                "add",
+                "llvm-tools-preview",
+                "--toolchain",
+                "nightly"
+            )?;
             println!("Downloading pre-built grcov");
             run!("curl", "-L", "https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2", "-o", "grcov.tar.bz2")?;
             run!("tar", "-xjf", "grcov.tar.bz2")?;
