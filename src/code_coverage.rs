@@ -71,6 +71,7 @@ impl<C: Config> CodeCoverage<C> {
         } else {
             "grcov"
         });
+        cmd.env("RUSTUP_TOOLCHAIN", "nightly");
         cmd.args(&[
             ".",
             "--binary-path",
