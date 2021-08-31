@@ -38,6 +38,7 @@ impl<C: Config> CodeCoverage<C> {
     pub fn execute(install_dependencies: bool) -> anyhow::Result<()> {
         if install_dependencies {
             println!("Installing rustup component `llvm-tools-preview` and nightly rust version");
+            run!("rustup", "install", "nightly")?;
             run!(
                 "rustup",
                 "component",
