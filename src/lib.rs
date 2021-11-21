@@ -5,6 +5,7 @@ pub use structopt;
 
 pub mod audit;
 pub mod code_coverage;
+pub mod pre_commit;
 use self::{audit::Audit, code_coverage::CodeCoverage};
 
 use structopt::StructOpt;
@@ -18,6 +19,8 @@ pub enum Commands {
     },
     /// Executes `cargo-deny`
     Audit { command: Option<String> },
+    /// Installs the xtask binary as the pre-commit hook.
+    InstallPreCommitHook,
 }
 
 pub fn main() -> anyhow::Result<()> {
@@ -27,5 +30,6 @@ pub fn main() -> anyhow::Result<()> {
             install_dependencies,
         } => CodeCoverage::<code_coverage::DefaultConfig>::execute(install_dependencies),
         Commands::Audit { command } => Audit::<audit::DefaultConfig>::execute(command),
+        Commands::InstallPreCommitHook => pre_commit::install(),
     }
 }

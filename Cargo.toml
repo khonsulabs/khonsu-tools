@@ -9,6 +9,7 @@ publish = false
 
 [dependencies]
 devx-cmd = "0.5"
+devx-pre-commit = "0.5"
 structopt = "0.3"
 badge = "0.3"
 anyhow = "1"
