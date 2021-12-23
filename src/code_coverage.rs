@@ -15,6 +15,7 @@ pub trait Config {
             String::from("test"),
             String::from("--workspace"),
             String::from("--all-features"),
+            String::from("--all-targets"),
         ]
     }
 
