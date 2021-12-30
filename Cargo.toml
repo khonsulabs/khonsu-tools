@@ -1,17 +1,2 @@
-[package]
-name = "khonsu-tools"
-version = "0.1.0"
-authors = ["Jonathan Johnson <jon@khonsulabs.com>"]
-edition = "2018"
-publish = false
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-devx-cmd = "0.5"
-devx-pre-commit = "0.5"
-structopt = "0.3"
-badge = "0.3"
-anyhow = "1"
-serde_json = "1"
-serde = { version = "1", features = ["derive"] }
+[workspace]
+members = ["khonsu-tools", "khonsu-universal-tools"]

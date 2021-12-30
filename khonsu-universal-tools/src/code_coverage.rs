@@ -3,6 +3,8 @@ use std::{fs, marker::PhantomData};
 use badge::{Badge, BadgeOptions};
 use devx_cmd::{run, Cmd};
 
+use crate::DefaultConfig;
+
 pub struct CodeCoverage<C: Config = DefaultConfig> {
     _config: PhantomData<C>,
 }
@@ -125,8 +127,6 @@ impl<C: Config> CodeCoverage<C> {
         Ok(())
     }
 }
-
-pub struct DefaultConfig;
 
 impl Config for DefaultConfig {}
 

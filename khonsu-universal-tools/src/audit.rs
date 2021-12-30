@@ -3,6 +3,8 @@ use std::{collections::HashSet, marker::PhantomData, path::Path, process::Stdio}
 use devx_cmd::{Cmd, Ostream};
 use serde::{Deserialize, Serialize};
 
+use crate::DefaultConfig;
+
 pub struct Audit<C: Config = DefaultConfig> {
     _config: PhantomData<C>,
 }
@@ -83,8 +85,6 @@ impl<C: Config> Audit<C> {
         Ok(())
     }
 }
-
-pub struct DefaultConfig;
 
 impl Config for DefaultConfig {}
 
