@@ -1,20 +1,20 @@
 pub use anyhow;
 pub use badge;
+pub use clap;
 pub use devx_cmd;
-pub use structopt;
 
 pub mod audit;
 pub mod code_coverage;
 pub mod pre_commit;
 use self::{audit::Audit, code_coverage::CodeCoverage};
 
-use structopt::StructOpt;
+use clap::Parser;
 
-#[derive(StructOpt, Debug)]
+#[derive(Parser, Debug)]
 pub enum Commands {
     /// Generates a code coverage report.
     GenerateCodeCoverageReport {
-        #[structopt(long = "install-dependencies")]
+        #[clap(long = "install-dependencies")]
         install_dependencies: bool,
     },
     /// Executes `cargo-deny`
@@ -36,7 +36,7 @@ impl Commands {
 }
 
 pub fn main() -> anyhow::Result<()> {
-    let command = Commands::from_args();
+    let command = Commands::parse();
     command.execute::<DefaultConfig>()
 }
 

@@ -1,23 +1,23 @@
 pub use khonsu_universal_tools as universal;
 
-use structopt::StructOpt;
+use clap::Parser;
 use universal::DefaultConfig;
 
 pub mod publish;
 
-#[derive(StructOpt, Debug)]
+#[derive(Parser, Debug)]
 pub enum Commands {
     Readmes {
-        #[structopt(long)]
+        #[clap(long)]
         release: bool,
     },
     Publish {
-        #[structopt(long)]
+        #[clap(long)]
         dry_run: bool,
-        #[structopt(long)]
+        #[clap(long)]
         allow_dirty: bool,
     },
-    #[structopt(flatten)]
+    #[clap(flatten)]
     Universal(universal::Commands),
 }
 
@@ -35,7 +35,7 @@ impl Commands {
 }
 
 pub fn main() -> anyhow::Result<()> {
-    let command = Commands::from_args();
+    let command = Commands::parse();
     command.execute::<DefaultConfig>()
 }
 
