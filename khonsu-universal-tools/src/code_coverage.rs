@@ -45,6 +45,7 @@ impl<C: Config> CodeCoverage<C> {
             println!("Installing rustup component `llvm-tools-preview` and nightly rust version");
             run!(
                 "rustup",
+                "toolchain",
                 "install",
                 NIGHTLY_TOOLCHAIN,
                 "--component",
