@@ -52,8 +52,8 @@ impl<C: Config> CodeCoverage<C> {
                 "llvm-tools-preview"
             )?;
             println!("Downloading pre-built grcov");
-            run!("curl", "-L", "https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2", "-o", "grcov.tar.bz2")?;
-            run!("tar", "-xjf", "grcov.tar.bz2")?;
+            run!("curl", "-L", "https://github.com/mozilla/grcov/releases/download/v0.8.6/grcov-v0.8.6-x86_64-unknown-linux-gnu.tar.gz", "-o", "grcov.tar.gz")?;
+            run!("tar", "-xzf", "grcov.tar.gz")?;
         }
 
         println!("Cleaning project");
