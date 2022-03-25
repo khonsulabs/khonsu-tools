@@ -9,7 +9,7 @@ pub struct CodeCoverage<C: Config = DefaultConfig> {
     _config: PhantomData<C>,
 }
 
-pub const NIGHTLY_TOOLCHAIN: &str = "nightly";
+pub const NIGHTLY_TOOLCHAIN: &str = "nightly-2022-03-22";
 
 pub trait Config {
     /// The cargo command after `cargo`.
