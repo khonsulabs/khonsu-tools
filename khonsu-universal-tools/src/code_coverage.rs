@@ -9,13 +9,10 @@ pub struct CodeCoverage<C: Config = DefaultConfig> {
     _config: PhantomData<C>,
 }
 
-pub const NIGHTLY_TOOLCHAIN: &str = "nightly-2022-03-22";
-
 pub trait Config {
     /// The cargo command after `cargo`.
     fn cargo_args() -> Vec<String> {
         vec![
-            format!("+{}", NIGHTLY_TOOLCHAIN),
             String::from("test"),
             String::from("--workspace"),
             String::from("--all-features"),
@@ -43,14 +40,7 @@ impl<C: Config> CodeCoverage<C> {
     pub fn execute(install_dependencies: bool) -> anyhow::Result<()> {
         if install_dependencies {
             println!("Installing rustup component `llvm-tools-preview` and nightly rust version");
-            run!(
-                "rustup",
-                "toolchain",
-                "install",
-                NIGHTLY_TOOLCHAIN,
-                "--component",
-                "llvm-tools-preview"
-            )?;
+            run!("rustup", "component", "add", "llvm-tools-preview")?;
             println!("Downloading pre-built grcov");
             run!("curl", "-L", "https://github.com/mozilla/grcov/releases/download/v0.8.6/grcov-v0.8.6-x86_64-unknown-linux-gnu.tar.gz", "-o", "grcov.tar.gz")?;
             run!("tar", "-xzf", "grcov.tar.gz")?;
@@ -82,7 +72,6 @@ impl<C: Config> CodeCoverage<C> {
         } else {
             "grcov"
         });
-        cmd.env("RUSTUP_TOOLCHAIN", NIGHTLY_TOOLCHAIN);
         cmd.args(&[
             ".",
             "--binary-path",
