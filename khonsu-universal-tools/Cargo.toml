@@ -9,7 +9,7 @@ publish = false
 [dependencies]
 devx-cmd = "0.5"
 devx-pre-commit = "0.5"
-clap = { version = "3", features = ["derive"] }
+clap = { version = "4.0.32", features = ["derive"] }
 badge = "0.3"
 anyhow = "1"
 serde_json = "1"

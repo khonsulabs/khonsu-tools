@@ -53,7 +53,14 @@ impl<C: Config> CodeCoverage<C> {
         let mut cmd = Cmd::new("cargo");
         cmd.env("CARGO_INCREMENTAL", "0");
         cmd.env("LLVM_PROFILE_FILE", "%m.profraw");
-        cmd.env("RUSTFLAGS", "-C instrument-coverage");
+        if let Ok(existing_flags) = std::env::var("RUSTFLAGS") {
+            cmd.env(
+                "RUSTFLAGS",
+                format!("-C instrument-coverage {existing_flags}"),
+            );
+        } else {
+            cmd.env("RUSTFLAGS", "-C instrument-coverage");
+        }
         cmd.args(C::cargo_args());
 
         for package in C::ignore_packages() {
